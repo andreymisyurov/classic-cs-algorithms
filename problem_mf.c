@@ -53,15 +53,15 @@ struct Matrix pow_mtrx(struct Matrix mtrx, unsigned n, unsigned m) {
     return result;
 }
 
-int main(void) {
-    struct Matrix matrix = {1,1,1,0};
-    unsigned n, m;
-    for(int i = 0; i < 2; ++i) {
-        for(int j = 0; j < 2; ++j) {
-            scanf("%u ", &matrix.arr[2 * i + j]);
-        }
-    }
-    scanf("%u %u", &n, &m);
-    print_matrix(pow_mtrx(matrix, n, m));
-    return 0;
-}
+// int main(void) {
+//     struct Matrix matrix = {1,1,1,0};
+//     unsigned n, m;
+//     for(int i = 0; i < 2; ++i) {
+//         for(int j = 0; j < 2; ++j) {
+//             scanf("%u ", &matrix.arr[2 * i + j]);
+//         }
+//     }
+//     scanf("%u %u", &n, &m);
+//     print_matrix(pow_mtrx(matrix, n, m));
+//     return 0;
+// }
