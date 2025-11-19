@@ -5,24 +5,7 @@ struct Matrix {
     unsigned arr[4];
 };
 
-int fibo_simple(int n, int mod) {
-    assert(n >= 0 && mod > 0);
-    if(n == 0) return 0;
-    if (n == 1 || n == 2) return 1;
-    int a = 1;
-    int b = 1;
-
-    for(; n > 2 ;) {
-        int temp = (a + b) % mod;
-        a = b;
-        b = temp;
-        --n;
-
-    }
-    return b;
-}
-
-long long fast_mult_mod(unsigned a, unsigned b, unsigned mod) {
+static long long fast_mult_mod(unsigned a, unsigned b, unsigned mod) {
     unsigned long long result = 0;
     a %= mod;
 
@@ -36,7 +19,7 @@ long long fast_mult_mod(unsigned a, unsigned b, unsigned mod) {
     return result;
 }
 
-struct Matrix mult_mtrx_mod(const struct Matrix mtrx1, const struct Matrix mtrx2, unsigned m) {
+static struct Matrix mult_mtrx_mod(const struct Matrix mtrx1, const struct Matrix mtrx2, unsigned m) {
 
     struct Matrix result = {0};
     for (int i = 0; i < 2; ++i) {
@@ -51,7 +34,7 @@ struct Matrix mult_mtrx_mod(const struct Matrix mtrx1, const struct Matrix mtrx2
     return result;
 }
 
-struct Matrix pow_mtrx(struct Matrix mtrx, unsigned n, unsigned m) {
+static struct Matrix pow_mtrx(struct Matrix mtrx, unsigned n, unsigned m) {
     struct Matrix result = (struct Matrix){1, 0, 0, 1};
     while (n) {
         if (n % 2 != 0) {
@@ -63,9 +46,26 @@ struct Matrix pow_mtrx(struct Matrix mtrx, unsigned n, unsigned m) {
     return result;
 }
 
-unsigned fibo_matrix_mult(unsigned n, unsigned mod) {
+unsigned get_fibo_fast(unsigned n, unsigned mod) {
     struct Matrix mtrx = {1, 1, 1, 0};
     return pow_mtrx(mtrx, n, mod).arr[1];
+}
+
+int get_fibo_simple(int n, int mod) {
+    assert(n >= 0 && mod > 0);
+    if(n == 0) return 0;
+    if (n == 1 || n == 2) return 1;
+    int a = 1;
+    int b = 1;
+
+    for(; n > 2 ;) {
+        int temp = (a + b) % mod;
+        a = b;
+        b = temp;
+        --n;
+
+    }
+    return b;
 }
 
 // int main(void) {

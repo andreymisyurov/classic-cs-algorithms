@@ -1,8 +1,3 @@
-problem_sf:
-	@gcc -std=c17 -Wall -Wextra test_problem_sf.c problem_sf.c -lcheck -lm -lpthread -o test_problem_sf
-	@./test_problem_sf
-	@make clean
-
 problem_pp:
 	@gcc -std=c17 -Wall -Wextra test_problem_pp.c problem_pp.c -lcheck -lm -lpthread -o test_problem_pp
 	@./test_problem_pp
@@ -13,10 +8,10 @@ problem_mf:
 	@./test_problem_mf
 	@make clean
 
-problem_hwf:
-	@gcc -std=c17 -Wall -Wextra test_problem_hwf.c problem_hwf.c problem_fm.c problem_sf.c  -lcheck -lm -lpthread -o test_problem_hwf
-	@./test_problem_hwf
+test_fibo_all:
+	@gcc -std=c17 -Wall -Wextra test_fibo_all.c problem_hwf.c problem_sf.c problem_fm.c -lcheck -lm -lpthread -o test_fibo_all
+	@./test_fibo_all
 	@make clean
 
 clean:
-	@rm -rf test_problem_pp test_problem_sf test_problem_mf a.out test_problem_hwf
+	@rm -rf test_problem_pp test_problem_mf a.out test_fibo_all

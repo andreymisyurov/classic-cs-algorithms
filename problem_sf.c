@@ -1,8 +1,8 @@
 #include "stdio.h"
 #include <assert.h>
 
-// func for test output
-void print_num_to_2ss(unsigned long long num) {
+// func for test output only
+static void print_num_to_2ss(unsigned long long num) {
     for(int i = 63, flag = 0; i >= 0; --i) {
         if(num & (1ULL << i)) {
             printf("1");
@@ -14,7 +14,7 @@ void print_num_to_2ss(unsigned long long num) {
     printf("\n");
 }
 
-unsigned long long sum_fibo (unsigned long long num) {
+unsigned long long num_to_fibo_mask (unsigned long long num) {
     unsigned long long result = 0;
     unsigned long long a = 1;
     unsigned long long b = 1;
