@@ -14,7 +14,7 @@ struct Matrix mult_matrix_mod(const struct Matrix m1, const struct Matrix m2, un
 struct Matrix pow_matrix_mod(struct Matrix m, unsigned long long n, unsigned mod);
 
 // problem_sf.c
-unsigned long long num_to_fibo_mask(unsigned long long num);
+unsigned long long num_to_fibo_mask(unsigned long long num, unsigned long long* min_fibo);
 
 // problem_fm.c
 unsigned get_fibo_fast(unsigned n, unsigned mod);
@@ -23,6 +23,6 @@ unsigned get_fibo_fast(unsigned n, unsigned mod);
 long long get_fibo_pisano(long long n, long long mod, long long* pisano_len);
 
 // problem_hwf.c
-int next_turn(unsigned total, unsigned possible);
+int next_turn(int total, int possible);
 
 #endif

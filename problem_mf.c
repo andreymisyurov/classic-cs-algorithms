@@ -1,5 +1,5 @@
 #include "stdio.h"
-#include "fibo.h"
+#include "math_utils.h"
 
 
 static void __attribute__((unused)) print_matrix(struct Matrix mtrx) {

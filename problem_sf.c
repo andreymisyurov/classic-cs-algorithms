@@ -14,7 +14,14 @@ static void __attribute__((unused)) print_num_to_2ss(unsigned long long num) {
     printf("\n");
 }
 
-unsigned long long num_to_fibo_mask (unsigned long long num) {
+unsigned long long num_to_fibo_mask (unsigned long long num, unsigned long long* min_fibo) {
+    if(num == 0) {
+        if (min_fibo != NULL) {
+            *min_fibo = 0;
+        }
+        return 0;
+    }
+
     unsigned long long result = 0;
     unsigned long long a = 1;
     unsigned long long b = 1;
@@ -39,6 +46,10 @@ unsigned long long num_to_fibo_mask (unsigned long long num) {
         if(b <= num) { // take this Fibonacci number into the sum
             num -= b;
             result = result | 1ULL << bit_index;
+            if (num == 0) {
+                if (min_fibo != NULL) *min_fibo = b;
+                break;
+            }
             prev = b - a;
             b = a;
             a = prev;

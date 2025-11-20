@@ -1,67 +1,105 @@
 #include <check.h>
 #include <stdio.h>
 
-#include "fibo.h"
+#include "math_utils.h"
 
 // TCase: Num_To_Fibo_Mask
 
+// [num_to_fibo_mask] Val: 0 -> mask: 0, min_fibo: 0
+START_TEST(test_num_to_fibo_mask_0) {
+    unsigned long long min_fibo = 123; // Garbage
+    ck_assert_int_eq(num_to_fibo_mask(0, &min_fibo), 0);
+    ck_assert_int_eq(min_fibo, 0);
+}
+END_TEST
+
+// [num_to_fibo_mask] Val: 11 (10100 -> 8 + 3 -> 8 + 2 + 1 NO Zeckendorf: 8 + 3 is not fibo sum)
+// 11 = 8 + 3. 3 = 2 + 1. So 11 = 8 + 3? No. 3 is F4. 
+// Zeckendorf for 11:
+// F6=8. 11-8=3.
+// F4=3. 3-3=0.
+// Sum: 8 + 3. Mask: (1<<4) | (1<<2) = 16 + 4 = 20. Correct.
+// Min fibo taken is 3.
+START_TEST(test_num_to_fibo_mask_11_with_min) {
+    unsigned long long min_fibo = 0;
+    ck_assert_int_eq(num_to_fibo_mask(11, &min_fibo), 20);
+    ck_assert_int_eq(min_fibo, 3);
+}
+END_TEST
+
+// [num_to_fibo_mask] Val: 10 (8 + 2) -> min_fibo: 2
+START_TEST(test_num_to_fibo_mask_10_with_min) {
+    unsigned long long min_fibo = 0;
+    ck_assert_int_eq(num_to_fibo_mask(10, &min_fibo), 18); // 16 + 2
+    ck_assert_int_eq(min_fibo, 2);
+}
+END_TEST
+
+// [num_to_fibo_mask] Val: 13 (F7) -> mask: 1<<5 = 32. min_fibo: 13
+START_TEST(test_num_to_fibo_mask_13_with_min) {
+    unsigned long long min_fibo = 0;
+    ck_assert_int_eq(num_to_fibo_mask(13, &min_fibo), 32);
+    ck_assert_int_eq(min_fibo, 13);
+}
+END_TEST
+
 // [num_to_fibo_mask] Val: 1 -> mask: 1 (0b1)
 START_TEST(test_num_to_fibo_mask_1) {
-    ck_assert_int_eq(num_to_fibo_mask(1), 1);
+    ck_assert_int_eq(num_to_fibo_mask(1, NULL), 1);
 }
 END_TEST
 
 // [num_to_fibo_mask] Val: 4 -> mask: 5 (0b101)
 START_TEST(test_num_to_fibo_mask_4) {
-    ck_assert_int_eq(num_to_fibo_mask(4), 5);
+    ck_assert_int_eq(num_to_fibo_mask(4, NULL), 5);
 }
 END_TEST
 
 // [num_to_fibo_mask] Val: 11 -> mask: 20 (0b10100)
 START_TEST(test_num_to_fibo_mask_11) {
-    ck_assert_int_eq(num_to_fibo_mask(11), 20);
+    ck_assert_int_eq(num_to_fibo_mask(11, NULL), 20);
 }
 END_TEST
 
 // [num_to_fibo_mask] Val: 20 -> mask: 42 (0b101010)
 START_TEST(test_num_to_fibo_mask_20) {
-    ck_assert_int_eq(num_to_fibo_mask(20), 42);
+    ck_assert_int_eq(num_to_fibo_mask(20, NULL), 42);
 }
 END_TEST
 
 // [num_to_fibo_mask] Val: 123456 -> mask: 16814592
 START_TEST(test_num_to_fibo_mask_123456) {
-    ck_assert_int_eq(num_to_fibo_mask(123456), 16814592);
+    ck_assert_int_eq(num_to_fibo_mask(123456, NULL), 16814592);
 }
 END_TEST
 
 // [num_to_fibo_mask] Val: 654321 -> mask: 152059905
 START_TEST(test_num_to_fibo_mask_654321) {
-    ck_assert_int_eq(num_to_fibo_mask(654321), 152059905);
+    ck_assert_int_eq(num_to_fibo_mask(654321, NULL), 152059905);
 }
 END_TEST
 
 // [num_to_fibo_mask] Val: 101010101 -> mask: 182805727745
 START_TEST(test_num_to_fibo_mask_101010101) {
-    ck_assert_int_eq(num_to_fibo_mask(101010101), 182805727745);
+    ck_assert_int_eq(num_to_fibo_mask(101010101, NULL), 182805727745);
 }
 END_TEST
 
 // [num_to_fibo_mask] Val: 202020202 -> mask: 594050424962
 START_TEST(test_num_to_fibo_mask_202020202) {
-    ck_assert_int_eq(num_to_fibo_mask(202020202), 594050424962);
+    ck_assert_int_eq(num_to_fibo_mask(202020202, NULL), 594050424962);
 }
 END_TEST
 
 // [num_to_fibo_mask] Val: 1234567890 -> mask: 8977825023301
 START_TEST(test_num_to_fibo_mask_1234567890) {
-    ck_assert_int_eq(num_to_fibo_mask(1234567890), 8977825023301);
+    ck_assert_int_eq(num_to_fibo_mask(1234567890, NULL), 8977825023301);
 }
 END_TEST
 
 // [num_to_fibo_mask] Val: 1000000000 -> mask: 5536391137833
 START_TEST(test_num_to_fibo_mask_1000000000) {
-    ck_assert_int_eq(num_to_fibo_mask(1000000000), 5536391137833);
+    ck_assert_int_eq(num_to_fibo_mask(1000000000, NULL), 5536391137833);
 }
 END_TEST
 
@@ -508,8 +546,12 @@ START_TEST(test_mult_peasant_max_1000000000) {
 END_TEST
 
 Suite *create_num_to_fibo_suite(void) {
-    Suite *s = suite_create("Zeckendorf (num->mask)");
+    Suite *s = suite_create("Zeckendorf (num->mask, min_fibo)");
     TCase *tc = tcase_create("Num_To_Fibo_Mask");
+    tcase_add_test(tc, test_num_to_fibo_mask_0);
+    tcase_add_test(tc, test_num_to_fibo_mask_11_with_min);
+    tcase_add_test(tc, test_num_to_fibo_mask_10_with_min);
+    tcase_add_test(tc, test_num_to_fibo_mask_13_with_min);
     tcase_add_test(tc, test_num_to_fibo_mask_1);
     tcase_add_test(tc, test_num_to_fibo_mask_4);
     tcase_add_test(tc, test_num_to_fibo_mask_11);
