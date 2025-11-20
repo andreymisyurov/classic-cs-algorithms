@@ -1,19 +1,23 @@
 #include "stdio.h"
+#include <assert.h>
+#include <stdlib.h>
 
-long long fast_mult(long long a, long long b) {
+static unsigned long long mult_peasant(unsigned long long a, unsigned long long b) {
     long long result = 0;
-    while(a) {
-        if (a % 2 != 0) {
-            result = result + b;
+    while(b) {
+        if (b % 2 != 0) {
+            result = result + a;
         }
-        b = b * 2;
-        a /= 2;
+        a = a * 2;
+        b /= 2;
     }
     return result;
 }
 
-long long fast_mult_mod(long long a, long long b, long long mod) {
-    long long result = 0;
+long long mult_peasant_mod(unsigned long long a, unsigned long long b, unsigned mod) {
+    assert(mod != 0);
+
+    unsigned long long result = 0;
     a %= mod;
 
     while (b) {
@@ -27,52 +31,47 @@ long long fast_mult_mod(long long a, long long b, long long mod) {
     return result;
 }
 
-long long my_pow(long long a, long long b) {
-    long long result = 1;
+static unsigned long long pow_bin(unsigned long long a, unsigned long long b) {
+    unsigned long long result = 1;
     while(b) {
         if (b % 2 != 0) {
-            result = (1LL *result * a);
+            result = mult_peasant(result, a);
         }
-        a = fast_mult(a, a);
+        a = mult_peasant(a, a);
         b /= 2;
     }
     return result;
 }
 
-long long my_pow_mod(long long a, long long b, long long mod) {
-    long long result = 1 % mod;
+static unsigned long long pow_bin_mod(unsigned long long a, unsigned long long b, unsigned mod) {
+    assert(mod != 0);
+
+    unsigned long long result = 1 % mod;
     a %= mod;
 
     while (b) {
         if (b % 2 != 0) {
-            result = fast_mult_mod(result, a, mod);
+            result = mult_peasant_mod(result, a, mod);
         }
-        a = fast_mult_mod(a, a, mod);
+        a = mult_peasant_mod(a, a, mod);
         b /= 2;
     }
 
     return result;
 }
 
-long long super_pow_iter(long long a, long long b, int n) {
-    a %= n;
+unsigned long long calc_tetration_mod(unsigned long long a, unsigned long long b, unsigned mod) {
+    assert(mod != 0);
+
+    a %= mod;
     if (b == 0) return 1;
     if (b == 1) return a;
 
-    long long exp = a;
+    unsigned long long exp = a;
 
-    for (long long k = 2; k < b; ++k) {
-        printf("gabella exp=%lld, a=%lld, b=%lld\n", exp, a, k);
-        exp = my_pow(a, exp);
+    for (unsigned long long k = 2; k < b; ++k) {
+        exp = pow_bin(a, exp);
     }
-    printf("gabella exp=%lld, a=%lld, b=%lld\n", exp, a, b);
 
-    return my_pow_mod(a, exp, n);
-}
-
-int main(void) {
-    long long a, b, n;                
-    scanf("%lld %lld %lld", &a, &b, &n);
-    printf("%lld\n", super_pow_iter(a, b, n));
-    return 0;
+    return pow_bin_mod(a, exp, mod);
 }

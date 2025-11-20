@@ -2,7 +2,7 @@
 #include <assert.h>
 
 // func for test output only
-static void print_num_to_2ss(unsigned long long num) {
+static void __attribute__((unused)) print_num_to_2ss(unsigned long long num) {
     for(int i = 63, flag = 0; i >= 0; --i) {
         if(num & (1ULL << i)) {
             printf("1");

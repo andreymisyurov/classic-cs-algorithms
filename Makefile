@@ -9,7 +9,7 @@ problem_mf:
 	@make clean
 
 test_fibo_all:
-	@gcc -std=c17 -Wall -Wextra test_fibo_all.c problem_hwf.c problem_sf.c problem_fm.c -lcheck -lm -lpthread -o test_fibo_all
+	@gcc -std=c17 -Wall -Wextra test_fibo_all.c problem_hwf.c problem_sf.c problem_fm.c problem_pp.c problem_rps.c problem_mf.c -lcheck -lm -lpthread -o test_fibo_all
 	@./test_fibo_all
 	@make clean
 

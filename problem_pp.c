@@ -1,6 +1,11 @@
 #include "stdio.h"
+#include "assert.h"
+#include "stdlib.h"
 
-long long fibo(long long n, long long mod, long long* pizo) {
+long long get_fibo_pisano(long long n, long long mod, long long* pizo) {
+    assert(mod > 0);
+    assert(n >= 0);
+    assert(pizo != NULL);
 
     long long a = 1, b = 1;
     long long flag_pizo = 0, current_n = 2;

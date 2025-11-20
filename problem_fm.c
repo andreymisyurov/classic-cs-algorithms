@@ -50,27 +50,3 @@ unsigned get_fibo_fast(unsigned n, unsigned mod) {
     struct Matrix mtrx = {1, 1, 1, 0};
     return pow_mtrx(mtrx, n, mod).arr[1];
 }
-
-int get_fibo_simple(int n, int mod) {
-    assert(n >= 0 && mod > 0);
-    if(n == 0) return 0;
-    if (n == 1 || n == 2) return 1;
-    int a = 1;
-    int b = 1;
-
-    for(; n > 2 ;) {
-        int temp = (a + b) % mod;
-        a = b;
-        b = temp;
-        --n;
-
-    }
-    return b;
-}
-
-// int main(void) {
-//     int n, mod;
-//     scanf("%d %d", &n, &mod);
-//     printf("%u\n", fibo_matrix_mult(n, mod));
-//     return 0;
-// }
